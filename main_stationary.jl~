@@ -1,0 +1,39 @@
+module main_stationary
+push!(LOAD_PATH, pwd())
+using QuantumOptics
+import build
+
+#Hamiltonian parameters
+L=10
+N=100
+hh=2
+Nmaxa=3
+Nmaxb=3
+Delta=2
+xi=1
+alpha=1
+k=1
+xip=1
+n=1
+name1="output/wigrhoa.dat"
+name2="output/wigrhob.dat"
+
+h=0.1
+deltalist=[i*h for i in -50:50]
+open("output/spectrum.dat","w") do io
+for i in deltalist
+  #Ham = build.HamiltonianCT(Nmaxa,Nmaxb,i,xi,alpha,k,xip)
+  Ham = build.HamiltonianCT(Nmaxa,Nmaxb,i,xi,alpha,k,xip)
+  eg = eigenstates(dense(Ham))
+  #println(eg[1][2])
+  println(io , i," ",eg[1][1])
+end
+end
+
+Ham = build.HamiltonianCT(Nmaxa,Nmaxb,Delta,xi,alpha,k,xip)
+esystem= eigenstates(dense(Ham))
+psi=esystem[2][n]
+rho = dm(psi)
+wigner = build.wignerF(rho,L,N,hh,name1,name2)
+
+end #Este end es para cerrar el modulo
