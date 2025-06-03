@@ -4,7 +4,7 @@ using QuantumOptics
 import build
 
 #Hamiltonian parameters
-L=10
+L=12
 N=200
 hh=2
 Nmaxa=6
